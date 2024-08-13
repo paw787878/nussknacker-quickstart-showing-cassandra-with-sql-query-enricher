@@ -1,0 +1,17 @@
+w tym cassandrowym kontenerze robimy tak
+
+cqlsh
+tam
+CREATE KEYSPACE cycling
+  WITH REPLICATION = {
+   'class' : 'SimpleStrategy',
+   'replication_factor' : 1
+  };
+tam
+CREATE TABLE cycling.cyclist_alt_stats (id UUID PRIMARY KEY, lastname text);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname)
+  VALUES (6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47, 'Kowalski');
+select * from cycling.cyclist_alt_stats;
+
+i dostaniemy blad z nullem w designerze, nie ma nic napisanego w konsoli designera.
+a ten jar to jest shadow jar zbudowany na pale z tamtego ich
