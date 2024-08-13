@@ -106,6 +106,26 @@ services:
         limits:
           memory: 256M
 
+  cassandra:
+    image: cassandra:5.0
+    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: "nu-db"
+#      POSTGRES_USER: "nu"
+#      POSTGRES_PASSWORD: "nupassword"
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -d nu-db -U nu"]
+#      interval: 10s
+#      retries: 10
+    volumes:
+      - nussknacker_designer_data:/var/lib/cassandra/data
+    ports:
+      - "8002:9042"
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 256M
+
   ### Nussknacker metrics-related services:
 
   grafana:
