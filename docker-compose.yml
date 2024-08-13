@@ -2,7 +2,7 @@ name: nussknacker
 
 services:
 
-  ### Quickstart setup container 
+  ### Quickstart setup container
   quickstart-setup:
     build:
       context: quickstart-setup/
@@ -71,7 +71,7 @@ services:
         condition: service_healthy
       flink-taskmanager:
         condition: service_started
-    expose: 
+    expose:
       - 8181
     healthcheck:
       test: [ "CMD-SHELL", "curl localhost:8080/api/app/healthCheck" ]
@@ -99,6 +99,8 @@ services:
       retries: 10
     volumes:
       - nussknacker_designer_data:/var/lib/postgresql/data
+    ports:
+      - "8001:5432"
     deploy:
       resources:
         limits:
