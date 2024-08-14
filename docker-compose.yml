@@ -82,6 +82,7 @@ services:
       retries: 10
     volumes:
       - ./designer/application-customizations.conf:/opt/nussknacker/conf/application-customizations.conf
+      # ja sobie go akurat zbudowalem samemu uzywajac shadow-jar plugina w gradle, ale mozna tez bylo go pobrac tutaj https://github.com/ing-bank/cassandra-jdbc-wrapper/releases jako ten bundle
       - ./jars/cassandra-wrapper-shadow-jar-1.0-SNAPSHOT-all.jar:/opt/nussknacker/components/common/extra/cassandra.jar
     volumes_from:
       - flink-jobmanager
@@ -113,22 +114,10 @@ services:
   cassandra:
     image: cassandra:5.0
     restart: unless-stopped
-#    environment:
-#      POSTGRES_DB: "nu-db"
-#      POSTGRES_USER: "nu"
-#      POSTGRES_PASSWORD: "nupassword"
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready -d nu-db -U nu"]
-#      interval: 10s
-#      retries: 10
     volumes:
       - nussknacker_designer_data:/var/lib/cassandra/data
     ports:
       - "8002:9042"
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 256M
 
   ### Nussknacker metrics-related services:
 
