@@ -46,6 +46,7 @@ services:
     image: touk/nussknacker:${NUSSKNACKER_VERSION:?NUSSKNACKER_VERSION must be defined}_scala-2.12
     restart: unless-stopped
     environment:
+      JAVA_DEBUG_PORT: "5005"
       CONFIG_FILE: "/opt/nussknacker/conf/application.conf,/opt/nussknacker/conf/application-customizations.conf"
       DB_URL: "jdbc:postgresql://postgres:5432/nu-db"
       DB_DRIVER: "org.postgresql.Driver"
@@ -73,6 +74,8 @@ services:
         condition: service_started
     expose:
       - 8181
+    ports:
+      - "5005:5005"
     healthcheck:
       test: [ "CMD-SHELL", "curl localhost:8080/api/app/healthCheck" ]
       interval: 10s

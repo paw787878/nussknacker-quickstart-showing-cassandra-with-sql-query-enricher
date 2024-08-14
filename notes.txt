@@ -7,7 +7,9 @@ CREATE KEYSPACE cycling
    'class' : 'SimpleStrategy',
    'replication_factor' : 1
   };
-tam
+tam (albo mozemy w tym momencie sie polaczyc z intellij, port 8002 bo taki wyeksportowalem z dockera
+    i taki url jak se wpisalem w configu nussknackera
+)
 CREATE TABLE cycling.cyclist_alt_stats (id UUID PRIMARY KEY, lastname text);
 INSERT INTO cycling.cyclist_alt_stats (id, lastname)
   VALUES (6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47, 'Kowalski');
@@ -15,3 +17,6 @@ select * from cycling.cyclist_alt_stats;
 
 i dostaniemy blad z nullem w designerze, nie ma nic napisanego w konsoli designera.
 a ten jar to jest shadow jar zbudowany na pale z tamtego ich
+
+touk/nussknacker:1.16.0_scala-2.12
+entrypoint /opt/nussknacker/bin/nussknacker-entrypoint.sh, nie ma cmd
