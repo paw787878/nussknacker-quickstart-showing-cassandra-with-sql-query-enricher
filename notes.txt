@@ -1,0 +1,32 @@
+
+By przygotować bazę danych
+po odpaleniu ./stop-and-cleancqlsh.sh
+odpalamy
+docker exec -it nussknacker-cassandra-1 bash
+cqlsh
+CREATE KEYSPACE cycling
+  WITH REPLICATION = {
+   'class' : 'SimpleStrategy',
+   'replication_factor' : 1
+  };
+
+# następnie następne polecenia można odpalić dalej w cqlsh albo mozna sie juz polaczyc używając intellij database toola (o czym za chwile)
+CREATE KEYSPACE cycling
+  WITH REPLICATION = {
+   'class' : 'SimpleStrategy',
+   'replication_factor' : 1
+  };
+CREATE TABLE cycling.cyclist_alt_stats (id UUID PRIMARY KEY, lastname text);
+INSERT INTO cycling.cyclist_alt_stats (id, lastname)
+  VALUES (6ab09bec-e68e-48d9-a5f8-97e6fb4c9b47, 'Kowalski');
+# mozna sprawdzic czy działa
+select * from cycling.cyclist_alt_stats;
+
+W intellij mozna sie polaczyc z cassandra używając jako data source apache cassandra, i tam wpisujemy
+host: localhost
+port: 8002
+user: cassandra
+password: cassandra
+keyspace: cycling
+url: jdbc:cassandra://cassandra:9042/cycling?localdatacenter=datacenter1
+(przy czym musi być wcześniej stworzony ręcznie ten keyspace cycling)

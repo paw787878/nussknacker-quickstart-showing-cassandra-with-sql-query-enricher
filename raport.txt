@@ -1,0 +1,12 @@
+
+Wychodzi na to, że ten driver od ing banku
+https://github.com/ing-bank/cassandra-jdbc-wrapper
+nie implementuje wystarczająco dobrze tego jdbc by działał z naszym sql query enricherem out of the box.
+Problem jest w metodzie
+com.ing.data.cassandra.jdbc.CassandraPreparedStatement#getMetaData
+implementującej metode
+java.sql.PreparedStatement#getMetaData
+widać patrząc na kod, że ta metoda ma szansę zwrócić dobry wynik jeśli mówimy o już
+wcześniej uruchomionym prepared statement (takim który ma już w sobie wyniki odpalenia związanego z nim sql (cql) query, krótko mówiąc takim w którym odpaliliśmy już metodę execute()), ale rzuca null reference exception gdy się odpali tą metodę getMetaData() zanim został odpalony execute().
+To właśnie się dzieje w nussknackerze jak się użyje sql query enrichera razem z tym driverem (objawia się to błedem w ui nussknackera "Could not create myDatabaseQueryCassandra: null", nie widać błędu w logach nu designera, trzeba sobie to znaleźć breakpointami).
+Generalnie widziałem, że ten driver połączył sie z bazą cassandrową, ponieważ gdy się podało w query w sql query enricherze błędny keyspace albo nazwę tabelki to była informacja z czytelnym błędem o tym że np nie ma takiej tabelki, więc on widział jakie są tabelki.
