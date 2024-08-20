@@ -30,3 +30,28 @@ password: cassandra
 keyspace: cycling
 url: jdbc:cassandra://cassandra:9042/cycling?localdatacenter=datacenter1
 (przy czym musi być wcześniej stworzony ręcznie ten keyspace cycling)
+
+--------------
+
+W ignite dzialala  chyba tylko database lookup enricher, a nie ten query enricher. Bo jak lookup ma dawac informacje o typach
+to on z tabel systemowych to bierze.
+
+W cassandrze tez sa tabele systemowe z ktorych mozna te informacje brac, np
+SELECT * FROM system_schema.keyspaces;
+SELECT * FROM system_schema.tables WHERE keyspace_name = 'cycling';
+SELECT * FROM system_schema.columns
+WHERE keyspace_name = 'cycling' AND table_name = 'cyclist_alt_stats';
+
+wiec to bedzie mozna jakos zrobic.
+Tylko trzeba by jakos przetlumaczyc nazwy typow cassandrowych na nazwy typow javowych.
+
+a moze mozna jednak z samego jdbc w przypadku cassandry ciagnac?
+https://stackoverflow.com/questions/18041697/getting-the-jdbc-column-types
+tam jest ta odpowiedz co ma chyba 4 liki czy cos
+
+Alternatywnie mozna by zrobic tak, ze jak leca wyjątki w pobieraniu metadanych to wychodzą jakies tam listy map o nie wiadomo jakich typach.
+trzeba by potem jakos sobie w spelu castowac.
+
+------
+
+jeszcze wymaganie zapewne: ma sie dac robic upserty do cassandry
